@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyday Weave - Babayi Weaves</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #4A4A4A;
+            --warm-brown: #8B6F47;
+            --terracotta: #B8846B;
+            --charcoal: #3D3D3D;
+            --warm-grey: #6B5D56;
+            --cream: #F5F1ED;
+            --off-white: #FAFAF8;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            color: var(--primary-dark);
+            background-color: var(--off-white);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(139, 111, 71, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .logo-nav img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+
+        .logo-nav h3 {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            letter-spacing: 3px;
+            font-weight: 500;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--warm-brown);
+            font-weight: 400;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: var(--terracotta);
+        }
+
+        /* Product Section */
+        .product-detail {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            color: var(--warm-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--warm-brown);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--terracotta);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 600px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+        }
+
+        .thumbnail {
+            height: 120px;
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--warm-brown);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Product Info */
+        .product-info {
+            padding: 2rem 0;
+        }
+
+        .product-info h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            color: var(--warm-brown);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .product-description {
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            color: var(--warm-grey);
+        }
+
+        .product-description p {
+            margin-bottom: 1.2rem;
+        }
+
+        .product-specs {
+            background: white;
+            padding: 2rem;
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--terracotta);
+        }
+
+        .product-specs h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--warm-brown);
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            color: var(--warm-grey);
+        }
+
+        .spec-list strong {
+            min-width: 140px;
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+
+        .impact-note {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .impact-note h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--warm-brown);
+        }
+
+        .impact-note p {
+            color: var(--warm-grey);
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--charcoal);
+            color: white;
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            border-radius: 2px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background: var(--warm-brown);
+        }
+
+        /* Production Story */
+        .production-story {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 5%;
+        }
+
+        .production-story h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--charcoal);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .story-item {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 2px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .story-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--warm-brown);
+        }
+
+        .story-item p {
+            color: var(--warm-grey);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .image-gallery {
+                position: relative;
+                top: 0;
+            }
+
+            .main-image {
+                height: 400px;
+            }
+
+            .thumbnail {
+                height: 80px;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .product-info h1 {
+                font-size: 2.2rem;
+            }
+
+            .product-price {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-image {
+                height: 300px;
+            }
+
+            .thumbnail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-info h1 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-nav">
+                <img src="babayi-logo.png" alt="Babayi Logo">
+                <h3>BABAYI</h3>
+            </div>
+            <ul>
+                <li><a href="babayi-complete.html">Home</a></li>
+                <li><a href="babayi-complete.html#model">Our Model</a></li>
+                <li><a href="babayi-complete.html#products">Collection</a></li>
+                <li><a href="babayi-complete.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="product-detail">
+        <div class="breadcrumb">
+            <a href="babayi-complete.html">Home</a> / <a href="babayi-complete.html#products">Collection</a> / Everyday Weave
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <div class="main-image" id="mainImage">
+                    <img src="CF61AFB8-C931-4BC8-B604-466681D646B4.JPG" alt="Everyday Weave - Pink Striped">
+                </div>
+                <div class="thumbnail-grid">
+                    <div class="thumbnail active" onclick="changeImage('CF61AFB8-C931-4BC8-B604-466681D646B4.JPG', this)">
+                        <img src="CF61AFB8-C931-4BC8-B604-466681D646B4.JPG" alt="View 1">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('CF61AFB8-C931-4BC8-B604-466681D646B4.JPG', this)">
+                        <img src="CF61AFB8-C931-4BC8-B604-466681D646B4.JPG" alt="View 2">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('CF61AFB8-C931-4BC8-B604-466681D646B4.JPG', this)">
+                        <img src="CF61AFB8-C931-4BC8-B604-466681D646B4.JPG" alt="View 3">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <h1>Everyday Weave</h1>
+                <div class="product-price">₱850</div>
+                
+                <div class="product-description">
+                    <p>A multi-functional towel and blanket woven by women artisans in Buhi, Camarines Sur. Designed for durability and versatility in everyday life.</p>
+                    <p>Each piece features traditional Bicolano striped patterns, hand-loomed using upcycled cotton threads. The natural cotton becomes softer and more absorbent with each wash, developing a unique character over time.</p>
+                    <p>Use it as a bath towel, beach blanket, yoga mat cover, or lightweight throw. The fringed edges and breathable weave make it perfect for tropical climates.</p>
+                </div>
+
+                <div class="product-specs">
+                    <h3>Specifications</h3>
+                    <ul class="spec-list">
+                        <li><strong>Material:</strong> Upcycled cotton threads</li>
+                        <li><strong>Size:</strong> 75cm x 150cm</li>
+                        <li><strong>Weight:</strong> Approximately 350g</li>
+                        <li><strong>Technique:</strong> Traditional handloom weaving</li>
+                        <li><strong>Origin:</strong> Buhi, Camarines Sur, Bicol</li>
+                        <li><strong>Care:</strong> Machine washable, tumble dry low</li>
+                    </ul>
+                </div>
+
+                <div class="impact-note">
+                    <h3>Your Impact</h3>
+                    <p>This purchase directly supports women weavers in Bicol and funds disaster preparedness programs. A portion of proceeds provides art materials for psychosocial support sessions with disaster-affected children.</p>
+                </div>
+
+                <a href="checkout.html?product=Everyday%20Weave&price=850&image=CF61AFB8-C931-4BC8-B604-466681D646B4.JPG" class="cta-button" style="display: block; text-align: center; text-decoration: none;">Purchase Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Production Story -->
+    <section class="production-story">
+        <h2>Production Story</h2>
+        <div class="story-grid">
+            <div class="story-item">
+                <h3>The Weavers</h3>
+                <p>Each Everyday Weave is handcrafted by women weavers in Buhi, Camarines Sur, using traditional handloom techniques passed down through generations. The weaving process takes approximately 6-8 hours per piece, depending on the complexity of the pattern.</p>
+            </div>
+            <div class="story-item">
+                <h3>Upcycled Materials</h3>
+                <p>We source upcycled cotton threads from textile factories, diverting waste from landfills and reducing environmental impact. These threads are sorted, cleaned, and prepared by women in our network, creating additional income opportunities.</p>
+            </div>
+            <div class="story-item">
+                <h3>Traditional Patterns</h3>
+                <p>The striped design reflects traditional Bicolano weaving aesthetics, with each weaver adding her own interpretation to the color placement and pattern rhythm. This maintains cultural heritage while allowing for individual creativity.</p>
+            </div>
+            <div class="story-item">
+                <h3>Climate Resilience</h3>
+                <p>Handloom weaving can continue even during power outages and typhoon recovery periods, providing stable income when other work is disrupted. This flexibility is critical for climate-vulnerable communities in Bicol.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Babayi Weaves. All rights reserved.</p>
+        <p>Climate-Resilient Livelihoods · Women-Led Ecosystem · Bicol, Philippines</p>
+    </footer>
+
+    <script>
+        function changeImage(src, element) {
+            document.getElementById('mainImage').querySelector('img').src = src;
+            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>

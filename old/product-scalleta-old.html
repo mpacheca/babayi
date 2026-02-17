@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalleta - Babayi Weaves</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #4A4A4A;
+            --warm-brown: #8B6F47;
+            --terracotta: #B8846B;
+            --charcoal: #3D3D3D;
+            --warm-grey: #6B5D56;
+            --cream: #F5F1ED;
+            --off-white: #FAFAF8;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            color: var(--primary-dark);
+            background-color: var(--off-white);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        nav {
+            background: white;
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(139, 111, 71, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .logo-nav img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+
+        .logo-nav h3 {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            letter-spacing: 3px;
+            font-weight: 500;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--warm-brown);
+            font-weight: 400;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: var(--terracotta);
+        }
+
+        .product-detail {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            color: var(--warm-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--warm-brown);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--terracotta);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .image-gallery {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 600px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+        }
+
+        .thumbnail {
+            height: 120px;
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--warm-brown);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-info {
+            padding: 2rem 0;
+        }
+
+        .product-info h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            color: var(--warm-brown);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .product-description {
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            color: var(--warm-grey);
+        }
+
+        .product-description p {
+            margin-bottom: 1.2rem;
+        }
+
+        .product-specs {
+            background: white;
+            padding: 2rem;
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--terracotta);
+        }
+
+        .product-specs h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--warm-brown);
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            color: var(--warm-grey);
+        }
+
+        .spec-list strong {
+            min-width: 140px;
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+
+        .impact-note {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .impact-note h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--warm-brown);
+        }
+
+        .impact-note p {
+            color: var(--warm-grey);
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--charcoal);
+            color: white;
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            border-radius: 2px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background: var(--warm-brown);
+        }
+
+        .production-story {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 5%;
+        }
+
+        .production-story h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--charcoal);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .story-item {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 2px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .story-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--warm-brown);
+        }
+
+        .story-item p {
+            color: var(--warm-grey);
+            line-height: 1.8;
+        }
+
+        footer {
+            background: var(--charcoal);
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 968px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .image-gallery {
+                position: relative;
+                top: 0;
+            }
+
+            .main-image {
+                height: 400px;
+            }
+
+            .thumbnail {
+                height: 80px;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .product-info h1 {
+                font-size: 2.2rem;
+            }
+
+            .product-price {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-image {
+                height: 300px;
+            }
+
+            .thumbnail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-info h1 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo-nav">
+                <img src="babayi-logo.png" alt="Babayi Logo">
+                <h3>BABAYI</h3>
+            </div>
+            <ul>
+                <li><a href="babayi-complete.html">Home</a></li>
+                <li><a href="babayi-complete.html#model">Our Model</a></li>
+                <li><a href="babayi-complete.html#products">Collection</a></li>
+                <li><a href="babayi-complete.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail">
+        <div class="breadcrumb">
+            <a href="babayi-complete.html">Home</a> / <a href="babayi-complete.html#products">Collection</a> / Scalleta
+        </div>
+
+        <div class="product-grid">
+            <div class="image-gallery">
+                <div class="main-image" id="mainImage">
+                    <img src="78717274-19D9-43A0-9284-035D787F620D.JPG" alt="Scalleta - Turquoise">
+                </div>
+                <div class="thumbnail-grid">
+                    <div class="thumbnail active" onclick="changeImage('78717274-19D9-43A0-9284-035D787F620D.JPG', this)">
+                        <img src="78717274-19D9-43A0-9284-035D787F620D.JPG" alt="View 1">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('78717274-19D9-43A0-9284-035D787F620D.JPG', this)">
+                        <img src="78717274-19D9-43A0-9284-035D787F620D.JPG" alt="View 2">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('78717274-19D9-43A0-9284-035D787F620D.JPG', this)">
+                        <img src="78717274-19D9-43A0-9284-035D787F620D.JPG" alt="View 3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h1>Scalleta</h1>
+                <div class="product-price">₱950</div>
+                
+                <div class="product-description">
+                    <p>A versatile inabel scarf that transitions seamlessly from professional to personal settings. Combining traditional Bicolano weaving patterns with contemporary functionality.</p>
+                    <p>The Scalleta represents the evolution of Filipino textile heritage—honoring traditional techniques while creating products relevant to modern life. Hand-woven with precision and care by women artisans who have mastered the intricate inabel technique.</p>
+                    <p>Wear it as a professional accessory, use it as a lightweight blanket during travel, or style it as a beach cover-up. The breathable weave and compact size make it an essential piece for the Filipino climate.</p>
+                </div>
+
+                <div class="product-specs">
+                    <h3>Specifications</h3>
+                    <ul class="spec-list">
+                        <li><strong>Material:</strong> Upcycled cotton threads</li>
+                        <li><strong>Size:</strong> 50cm x 180cm</li>
+                        <li><strong>Weight:</strong> Approximately 200g</li>
+                        <li><strong>Technique:</strong> Traditional inabel weaving</li>
+                        <li><strong>Origin:</strong> Buhi, Camarines Sur, Bicol</li>
+                        <li><strong>Care:</strong> Hand wash recommended, air dry</li>
+                    </ul>
+                </div>
+
+                <div class="impact-note">
+                    <h3>Your Impact</h3>
+                    <p>Each Scalleta purchase supports women weavers skilled in traditional inabel techniques and contributes to disaster resilience programs in Bicol. Revenue helps fund artisan skill development and community preparedness initiatives.</p>
+                </div>
+
+                <a href="checkout.html?product=Scalleta&price=950&image=78717274-19D9-43A0-9284-035D787F620D.JPG" class="cta-button" style="display: block; text-align: center; text-decoration: none;">Purchase Now</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="production-story">
+        <h2>Production Story</h2>
+        <div class="story-grid">
+            <div class="story-item">
+                <h3>Inabel Mastery</h3>
+                <p>The Scalleta requires advanced inabel weaving skills. Our artisans have spent years mastering the tight, precise weaving technique that creates the distinctive pattern and drape. This expertise commands fair compensation that recognizes skill level.</p>
+            </div>
+            <div class="story-item">
+                <h3>Contemporary Design</h3>
+                <p>While honoring traditional patterns, we've adapted dimensions and finishing for modern use. The size works for professional styling, the weight is travel-friendly, and the edges are finished for durability in everyday wear.</p>
+            </div>
+            <div class="story-item">
+                <h3>Cultural Heritage</h3>
+                <p>Inabel weaving is a centuries-old Bicolano tradition. By creating market-viable products that showcase this technique, we ensure these skills remain economically relevant and culturally valued for future generations.</p>
+            </div>
+            <div class="story-item">
+                <h3>Sustainable Production</h3>
+                <p>Upcycled cotton threads reduce textile waste while creating employment in sorting and preparation. The handloom process uses no electricity, making it both environmentally sustainable and resilient to power disruptions.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Babayi Weaves. All rights reserved.</p>
+        <p>Climate-Resilient Livelihoods · Women-Led Ecosystem · Bicol, Philippines</p>
+    </footer>
+
+    <script>
+        function changeImage(src, element) {
+            document.getElementById('mainImage').querySelector('img').src = src;
+            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
