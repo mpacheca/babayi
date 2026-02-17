@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limited Edition — Babayi Weaves</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pink:       #E8B4C0;
+            --pink-deep:  #C8919F;
+            --pink-pale:  #FDF0F3;
+            --charcoal:   #2E2E2E;
+            --dark-grey:  #4A4A4A;
+            --mid-grey:   #6B6B6B;
+            --light-grey: #F7F7F7;
+            --white:      #FFFFFF;
+            --border:     rgba(200, 145, 159, 0.2);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; line-height: 1.75; color: var(--dark-grey); background: var(--white); }
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--charcoal); }
+
+        nav { background: var(--white); padding: 1.2rem 5%; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo-nav { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+        .logo-nav img { width: 38px; height: 38px; border-radius: 50%; }
+        .logo-nav span { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; letter-spacing: 4px; color: var(--charcoal); font-weight: 500; }
+        nav ul { list-style: none; display: flex; gap: 2.5rem; }
+        nav a { text-decoration: none; color: var(--mid-grey); font-size: 0.78rem; letter-spacing: 1.8px; text-transform: uppercase; font-weight: 400; position: relative; transition: color 0.3s; }
+        nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--pink-deep); transition: width 0.3s; }
+        nav a:hover { color: var(--pink-deep); }
+        nav a:hover::after { width: 100%; }
+
+        .breadcrumb { max-width: 1300px; margin: 0 auto; padding: 1.5rem 5% 0; font-size: 0.78rem; color: var(--mid-grey); }
+        .breadcrumb a { color: var(--pink-deep); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .product-wrap { max-width: 1300px; margin: 0 auto; padding: 3rem 5% 6rem; }
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+
+        .gallery { position: sticky; top: 100px; }
+        .main-img { width: 100%; height: 580px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .main-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+        .main-img:hover img { transform: scale(1.03); }
+        .thumb-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+        .thumb { height: 110px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.3s; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .thumb:hover, .thumb.active { border-color: var(--pink-deep); }
+
+        .product-info { padding-top: 0.5rem; }
+
+        .section-label { display: block; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--pink-deep); margin-bottom: 0.8rem; font-weight: 500; }
+
+        /* Limited badge */
+        .limited-badge {
+            display: inline-block;
+            background: var(--pink-pale);
+            border: 1px solid var(--pink);
+            color: var(--pink-deep);
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0.35rem 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-info h1 { font-size: 3rem; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        .pink-rule { width: 40px; height: 2px; background: var(--pink); margin: 1.2rem 0 1.8rem; }
+        .price { font-size: 1.6rem; color: var(--pink-deep); font-family: 'Cormorant Garamond', serif; margin-bottom: 2rem; }
+        .product-desc p { font-size: 0.92rem; color: var(--mid-grey); font-weight: 300; line-height: 1.85; margin-bottom: 1.2rem; }
+
+        .specs-block { background: var(--light-grey); border-left: 2px solid var(--pink); padding: 1.8rem 2rem; margin: 2rem 0; }
+        .specs-block h3 { font-size: 1.1rem; margin-bottom: 1.2rem; color: var(--charcoal); }
+        .spec-row { display: flex; margin-bottom: 0.8rem; font-size: 0.87rem; }
+        .spec-row strong { min-width: 140px; color: var(--charcoal); font-weight: 500; }
+        .spec-row span { color: var(--mid-grey); font-weight: 300; }
+
+        .impact-box { background: var(--pink-pale); border: 1px solid var(--border); padding: 1.8rem 2rem; margin-bottom: 2rem; }
+        .impact-box h3 { font-size: 1.1rem; margin-bottom: 0.8rem; color: var(--charcoal); }
+        .impact-box p { font-size: 0.88rem; color: var(--mid-grey); font-weight: 300; line-height: 1.8; }
+
+        .btn-buy { display: block; width: 100%; background: var(--charcoal); color: var(--white); padding: 1.1rem; text-align: center; text-decoration: none; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; border: none; cursor: pointer; transition: background 0.3s; font-family: 'Montserrat', sans-serif; }
+        .btn-buy:hover { background: var(--pink-deep); }
+
+        .story-section { background: var(--light-grey); padding: 5rem 5%; }
+        .story-inner { max-width: 1300px; margin: 0 auto; }
+        .story-inner h2 { font-size: 2.4rem; text-align: center; margin-bottom: 0.8rem; }
+        .pink-rule.centered { width: 40px; height: 2px; background: var(--pink); margin: 1rem auto 3rem; }
+        .story-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .story-card { background: var(--white); padding: 2.5rem; border: 1px solid var(--border); border-top: 2px solid var(--pink); }
+        .story-card h3 { font-size: 1.2rem; margin-bottom: 0.8rem; color: var(--charcoal); }
+        .story-card p { font-size: 0.88rem; color: var(--mid-grey); font-weight: 300; line-height: 1.8; }
+
+        footer { background: var(--charcoal); padding: 3rem 5%; }
+        .footer-inner { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+        .footer-brand span { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; letter-spacing: 4px; color: white; display: block; margin-bottom: 0.4rem; }
+        .footer-brand p { font-size: 0.75rem; font-weight: 300; color: rgba(255,255,255,0.5); }
+        .footer-links { display: flex; gap: 1rem; }
+        .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s; }
+        .footer-links a:hover { background: var(--pink-deep); border-color: var(--pink-deep); color: white; }
+
+        @media (max-width: 968px) {
+            .product-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .gallery { position: relative; top: 0; }
+            .main-img { height: 400px; }
+            .story-grid { grid-template-columns: 1fr; }
+            .nav-container { flex-direction: column; gap: 0.8rem; }
+            nav ul { gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
+            .footer-inner { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 480px) {
+            .main-img { height: 300px; }
+            .product-info h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="logo-nav">
+            <img src="images/logo/-_BABAYI RED ICON.png" alt="Babayi Logo">
+            <span>BABAYI</span>
+        </a>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#model">Our Model</a></li>
+            <li><a href="index.html#products">Collection</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="breadcrumb">
+    <a href="index.html">Home</a> &nbsp;/&nbsp;
+    <a href="index.html#products">Collection</a> &nbsp;/&nbsp;
+    Limited Edition
+</div>
+
+<div class="product-wrap">
+    <div class="product-grid">
+
+        <div class="gallery">
+            <div class="main-img" id="mainImg">
+                <img src="images/products/product_abaca_string_1.jpg" alt="Everyday Weave" id="mainImgEl">
+            </div>
+            <div class="thumb-row">
+                <div class="thumb" onclick="setImg('images/products/product_abaca_string_1.jpg', this)">
+                    <img src="images/products/product_abaca_string_1.jpg" alt="">
+                </div>
+                <div class="thumb active" onclick="setImg('images/products/product_abaca_string_2.jpg', this)">
+                    <img src="images/products/product_abaca_string_2.jpg" alt="">
+                </div>
+                <div class="thumb" onclick="setImg('images/products/product_abaca_string_3.jpg', this)">
+                    <img src="images/products/product_abaca_string_3.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="product-info">
+            <span class="limited-badge">Limited Edition</span>
+            <span class="section-label">Artisan Collection</span>
+            <h1>Artisan Piece</h1>
+            <div class="pink-rule"></div>
+            <div class="price">₱1,100</div>
+
+            <div class="product-desc">
+                <p>Each piece in the Limited Edition collection represents the highest expression of our artisans' creativity within traditional Bicolano weaving techniques. No two pieces are exactly alike.</p>
+                <p>Artisans select their own color palettes and interpret traditional patterns through their individual aesthetic lens — honoring craft integrity while allowing personal expression.</p>
+                <p>These are conversation starters. Artworks you can use. They embody the intersection of heritage and individual voice, demonstrating that tradition is living, not static.</p>
+            </div>
+
+            <div class="specs-block">
+                <h3>Specifications</h3>
+                <div class="spec-row"><strong>Material</strong><span>Upcycled cotton threads</span></div>
+                <div class="spec-row"><strong>Size</strong><span>75cm × 150cm (approx.)</span></div>
+                <div class="spec-row"><strong>Weight</strong><span>Approximately 350–400g</span></div>
+                <div class="spec-row"><strong>Technique</strong><span>Advanced handloom weaving</span></div>
+                <div class="spec-row"><strong>Origin</strong><span>Buhi, Camarines Sur, Bicol</span></div>
+                <div class="spec-row"><strong>Note</strong><span>Each piece unique — variations expected</span></div>
+            </div>
+
+            <div class="impact-box">
+                <h3>Your Impact</h3>
+                <p>Limited Edition pieces command premium pricing that recognizes advanced skill and creative labor. Your purchase directly supports master weavers and gives them economic agency to experiment and innovate within their craft.</p>
+            </div>
+
+            <a href="checkout.html?product=Limited%20Edition&price=1100&image=7E5AA652-CEF7-498E-8A39-4DF9184D8B76.JPG" class="btn-buy">Purchase Now</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="story-section">
+    <div class="story-inner">
+        <h2>Production Story</h2>
+        <div class="pink-rule centered"></div>
+        <div class="story-grid">
+            <div class="story-card">
+                <h3>Artisan Autonomy</h3>
+                <p>Limited Edition pieces give artisans creative freedom within their expertise. They select colors, adjust pattern density, and make aesthetic decisions that reflect their individual style and vision.</p>
+            </div>
+            <div class="story-card">
+                <h3>Skill Recognition</h3>
+                <p>Premium pricing acknowledges that these weavers have mastered their craft. Their expertise deserves compensation that reflects years of skill development and the creative labor involved in each unique piece.</p>
+            </div>
+            <div class="story-card">
+                <h3>Living Tradition</h3>
+                <p>By allowing innovation within traditional techniques, we keep Bicolano weaving relevant and dynamic — preventing the craft from becoming museum artifact and ensuring it remains economically viable for future generations.</p>
+            </div>
+            <div class="story-card">
+                <h3>Individual Stories</h3>
+                <p>Each Limited Edition piece carries the signature of its maker — not literally, but through their aesthetic choices and weaving rhythm. You are not buying mass production. You are acquiring a specific artisan's work.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>BABAYI</span>
+            <p>Climate-Resilient Livelihoods · Women-Led Ecosystem · Bicol, Philippines</p>
+        </div>
+        <div class="footer-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function setImg(src, el) {
+        document.getElementById('mainImgEl').src = src;
+        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+    }
+</script>
+</body>
+</html>
