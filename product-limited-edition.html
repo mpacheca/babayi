@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limited Edition — Babayi Weaves</title>
+    <title>Abaca Strings — Babayi Weaves</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,12 +42,86 @@
         .product-wrap { max-width: 1300px; margin: 0 auto; padding: 3rem 5% 6rem; }
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
 
+        /* ── GALLERY ── */
         .gallery { position: sticky; top: 100px; }
-        .main-img { width: 100%; height: 580px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 1rem; }
-        .main-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-        .main-img:hover img { transform: scale(1.03); }
-        .thumb-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
-        .thumb { height: 110px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.3s; }
+
+        .main-img-wrap {
+            position: relative; width: 100%;
+            overflow: hidden; border: 1px solid var(--border);
+            margin-bottom: 0.8rem; background: var(--light-grey);
+            aspect-ratio: 4/5;
+			height: 580px;
+        }
+        .main-img-wrap img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: opacity 0.35s ease;
+        }
+        .gallery-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 10;
+            background: none; border: none; outline: none;
+            color: rgba(255,255,255,0.9);
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.5rem; line-height: 1;
+            filter: drop-shadow(0 1px 4px rgba(0,0,0,0.6));
+            transition: all 0.25s;
+            padding: 0;
+        }
+        .gallery-arrow:hover {
+            color: white;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+            transform: translateY(-50%) scale(1.15);
+        }
+        .gallery-arrow.prev { left: 0.75rem; }
+        .gallery-arrow.next { right: 0.75rem; }
+        .gallery-dots {
+            position: absolute; bottom: 0.75rem; left: 50%;
+            transform: translateX(-50%); display: flex; gap: 5px; z-index: 10;
+        }
+        .g-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.7);
+            cursor: pointer; transition: all 0.3s;
+        }
+        .g-dot.active { background: white; transform: scale(1.3); }
+
+        /* Thumbnail strip — always show exactly 3, arrows page through extras */
+        .thumb-strip-wrap {
+            display: grid;
+            grid-template-columns: 28px 1fr 28px;
+            gap: 0.4rem;
+            align-items: stretch;
+        }
+        .strip-arrow {
+            background: none; border: none; outline: none;
+            color: var(--mid-grey);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem;
+            transition: all 0.25s; padding: 0;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+        }
+        .strip-arrow:hover { color: var(--pink-deep); filter: drop-shadow(0 1px 4px rgba(200,145,159,0.4)); }
+        .strip-arrow:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+        /* The 3-up thumb viewport */
+        .thumb-viewport {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            overflow: hidden;
+        }
+
+        /* Each thumb — horizontal rectangle, hidden by default */
+        .thumb {
+            height: 110px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.25s;
+            display: none;
+        }
+        .thumb.visible { display: block; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .thumb:hover, .thumb.active { border-color: var(--pink-deep); }
 
@@ -104,14 +178,18 @@
         .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s; }
         .footer-links a:hover { background: var(--pink-deep); border-color: var(--pink-deep); color: white; }
 
-        @media (max-width: 968px) {
+                @media (max-width: 968px) {
             .product-grid { grid-template-columns: 1fr; gap: 2.5rem; }
             .gallery { position: relative; top: 0; }
-            .main-img { height: 400px; }
             .story-grid { grid-template-columns: 1fr; }
             .nav-container { flex-direction: column; gap: 0.8rem; }
             nav ul { gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
             .footer-inner { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 480px) {
+            .product-info h1 { font-size: 2.2rem; }
+            .gallery-arrow { width: 30px; height: 30px; font-size: 0.8rem; }
         }
 
         @media (max-width: 480px) {
@@ -140,58 +218,68 @@
 <div class="breadcrumb">
     <a href="index.html">Home</a> &nbsp;/&nbsp;
     <a href="index.html#products">Collection</a> &nbsp;/&nbsp;
-    Limited Edition
+    Abaca Strings
 </div>
 
 <div class="product-wrap">
     <div class="product-grid">
 
-        <div class="gallery">
-            <div class="main-img" id="mainImg">
-                <img src="images/products/product_abaca_string_1.jpg" alt="Everyday Weave" id="mainImgEl">
+                <div class="gallery">
+            <div class="main-img-wrap">
+                <img src="images/products/product_abaca_string_1.jpg" alt="" id="mainImgEl">
+                <button class="gallery-arrow prev">&#8592;</button>
+                <button class="gallery-arrow next">&#8594;</button>
+                <div class="gallery-dots"></div>
             </div>
-            <div class="thumb-row">
-                <div class="thumb" onclick="setImg('images/products/product_abaca_string_1.jpg', this)">
-                    <img src="images/products/product_abaca_string_1.jpg" alt="">
+            <div class="thumb-strip-wrap">
+                <button class="strip-arrow strip-prev">&#8249;</button>
+                <div class="thumb-viewport">
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_abaca_string_1.jpg"
+						   data-full="images/products/product_abaca_string_1.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_abaca_string_2.jpg"
+						   data-full="images/products/product_abaca_string_2.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_abaca_string_3.jpg"
+						   data-full="images/products/product_abaca_string_3.jpg" alt="">
+					</div>
                 </div>
-                <div class="thumb active" onclick="setImg('images/products/product_abaca_string_2.jpg', this)">
-                    <img src="images/products/product_abaca_string_2.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_abaca_string_3.jpg', this)">
-                    <img src="images/products/product_abaca_string_3.jpg" alt="">
-                </div>
+                <button class="strip-arrow strip-next">&#8250;</button>
             </div>
         </div>
 
         <div class="product-info">
-            <span class="limited-badge">Limited Edition</span>
+            <!-- <span class="limited-badge">Abaca Strings</span> -->
             <span class="section-label">Artisan Collection</span>
-            <h1>Artisan Piece</h1>
+            <h1>Abaca Strings</h1>
             <div class="pink-rule"></div>
-            <div class="price">₱1,100</div>
+            <div class="price">₱75</div>
 
             <div class="product-desc">
-                <p>Each piece in the Limited Edition collection represents the highest expression of our artisans' creativity within traditional Bicolano weaving techniques. No two pieces are exactly alike.</p>
-                <p>Artisans select their own color palettes and interpret traditional patterns through their individual aesthetic lens — honoring craft integrity while allowing personal expression.</p>
-                <p>These are conversation starters. Artworks you can use. They embody the intersection of heritage and individual voice, demonstrating that tradition is living, not static.</p>
+                <p>Crafted from natural abaca fiber, these biodegradable strings are strong, lightweight, and plastic-free. Each 10-meter bundle supports local farmers trained to process fibers beyond raw selling, adding value at the source while offering a sustainable alternative for tying, crafting, or packaging needs.</p>
             </div>
 
             <div class="specs-block">
                 <h3>Specifications</h3>
-                <div class="spec-row"><strong>Material</strong><span>Upcycled cotton threads</span></div>
-                <div class="spec-row"><strong>Size</strong><span>75cm × 150cm (approx.)</span></div>
-                <div class="spec-row"><strong>Weight</strong><span>Approximately 350–400g</span></div>
-                <div class="spec-row"><strong>Technique</strong><span>Advanced handloom weaving</span></div>
-                <div class="spec-row"><strong>Origin</strong><span>Buhi, Camarines Sur, Bicol</span></div>
-                <div class="spec-row"><strong>Note</strong><span>Each piece unique — variations expected</span></div>
+                <div class="spec-row"><strong>Material</strong><span>Abaca Fibers</span></div>
+                <div class="spec-row"><strong>Size</strong><span>10m x 2mm (approx.)</span></div>
+                <div class="spec-row"><strong>Weight</strong><span>Approximately 50g</span></div>
+                <div class="spec-row"><strong>Technique</strong><span>Abaca Twining</span></div>
+                <div class="spec-row"><strong>Origin</strong><span>Camarines Sur, Bicol</span></div>
+                <div class="spec-row"><strong>Note</strong><span>Natural Color</span></div>
             </div>
 
             <div class="impact-box">
                 <h3>Your Impact</h3>
-                <p>Limited Edition pieces command premium pricing that recognizes advanced skill and creative labor. Your purchase directly supports master weavers and gives them economic agency to experiment and innovate within their craft.</p>
+                <p>Abaca Strings pieces command premium pricing that recognizes advanced skill and creative labor. Your purchase directly supports master weavers and gives them economic agency to experiment and innovate within their craft.</p>
             </div>
 
-            <a href="checkout.html?product=Limited%20Edition&price=1100&image=7E5AA652-CEF7-498E-8A39-4DF9184D8B76.JPG" class="btn-buy">Purchase Now</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdBq73YyE2H0n_C0Y4GrOkiYMHFYnbgf7lgk61yEwSw1di_jA/viewform?pli=1" class="btn-buy">Purchase Now</a>
         </div>
 
     </div>
@@ -204,7 +292,7 @@
         <div class="story-grid">
             <div class="story-card">
                 <h3>Artisan Autonomy</h3>
-                <p>Limited Edition pieces give artisans creative freedom within their expertise. They select colors, adjust pattern density, and make aesthetic decisions that reflect their individual style and vision.</p>
+                <p>Abaca Strings pieces give artisans creative freedom within their expertise. They select colors, adjust pattern density, and make aesthetic decisions that reflect their individual style and vision.</p>
             </div>
             <div class="story-card">
                 <h3>Skill Recognition</h3>
@@ -216,7 +304,7 @@
             </div>
             <div class="story-card">
                 <h3>Individual Stories</h3>
-                <p>Each Limited Edition piece carries the signature of its maker — not literally, but through their aesthetic choices and weaving rhythm. You are not buying mass production. You are acquiring a specific artisan's work.</p>
+                <p>Each Abaca Strings piece carries the signature of its maker — not literally, but through their aesthetic choices and weaving rhythm. You are not buying mass production. You are acquiring a specific artisan's work.</p>
             </div>
         </div>
     </div>
@@ -237,11 +325,71 @@
 </footer>
 
 <script>
-    function setImg(src, el) {
-        document.getElementById('mainImgEl').src = src;
-        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
+(function () {
+    const thumbEls  = Array.from(document.querySelectorAll('.thumb'));
+    const mainImg   = document.getElementById('mainImgEl');
+    const dotsWrap  = document.querySelector('.gallery-dots');
+    const viewport  = document.querySelector('.thumb-viewport');
+    const btnPrev   = document.querySelector('.strip-arrow.strip-prev');
+    const btnNext   = document.querySelector('.strip-arrow.strip-next');
+    const PER_PAGE  = 3;
+    let current     = 0;   // active image index
+    let stripOffset = 0;   // which thumb is the first visible in the strip
+    let timer       = null;
+    const srcs      = thumbEls.map(t => t.querySelector('img').dataset.full);
+
+    // Build dots
+    srcs.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'g-dot';
+        d.onclick = () => { goTo(i); resetTimer(); };
+        dotsWrap.appendChild(d);
+    });
+
+    // Show/hide thumbs in the current window
+    function renderStrip() {
+        thumbEls.forEach((t, i) => {
+            const inWindow = i >= stripOffset && i < stripOffset + PER_PAGE;
+            t.classList.toggle('visible', inWindow);
+        });
+        btnPrev.disabled = stripOffset === 0;
+        btnNext.disabled = stripOffset + PER_PAGE >= srcs.length;
     }
+
+    // Ensure active thumb is in the visible window
+    function ensureVisible(idx) {
+        if (idx < stripOffset) stripOffset = idx;
+        else if (idx >= stripOffset + PER_PAGE) stripOffset = idx - PER_PAGE + 1;
+        renderStrip();
+    }
+
+    function goTo(i) {
+        current = (i + srcs.length) % srcs.length;
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = srcs[current]; mainImg.style.opacity = '1'; }, 180);
+        thumbEls.forEach((t, j) => t.classList.toggle('active', j === current));
+        document.querySelectorAll('.g-dot').forEach((d, j) => d.classList.toggle('active', j === current));
+        ensureVisible(current);
+    }
+
+    thumbEls.forEach((t, i) => t.addEventListener('click', () => { goTo(i); resetTimer(); }));
+
+    document.querySelector('.gallery-arrow.prev').addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+    document.querySelector('.gallery-arrow.next').addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+
+    btnPrev.addEventListener('click', () => { stripOffset = Math.max(0, stripOffset - PER_PAGE); renderStrip(); });
+    btnNext.addEventListener('click', () => { stripOffset = Math.min(srcs.length - PER_PAGE, stripOffset + PER_PAGE); renderStrip(); });
+
+    function startTimer() { timer = setInterval(() => goTo(current + 1), 5000); }
+    function resetTimer() { clearInterval(timer); startTimer(); }
+    document.querySelector('.main-img-wrap').addEventListener('mouseenter', () => clearInterval(timer));
+    document.querySelector('.main-img-wrap').addEventListener('mouseleave', startTimer);
+
+    // Init
+    renderStrip();
+    goTo(0);
+    startTimer();
+})();
 </script>
 </body>
 </html>
