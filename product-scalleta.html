@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scalleta — Babayi Weaves</title>
+    <title>Inabeg Wrap — Babayi Weaves</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,14 +43,86 @@
 
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
 
+        /* ── GALLERY ── */
         .gallery { position: sticky; top: 100px; }
 
-        .main-img { width: 100%; height: 580px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 1rem; }
-        .main-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-        .main-img:hover img { transform: scale(1.03); }
+        .main-img-wrap {
+            position: relative; width: 100%;
+            overflow: hidden; border: 1px solid var(--border);
+            margin-bottom: 0.8rem; background: var(--light-grey);
+            aspect-ratio: 4/5;
+			height: 580px;
+        }
+        .main-img-wrap img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: opacity 0.35s ease;
+        }
+        .gallery-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 10;
+            background: none; border: none; outline: none;
+            color: rgba(255,255,255,0.9);
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.5rem; line-height: 1;
+            filter: drop-shadow(0 1px 4px rgba(0,0,0,0.6));
+            transition: all 0.25s;
+            padding: 0;
+        }
+        .gallery-arrow:hover {
+            color: white;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+            transform: translateY(-50%) scale(1.15);
+        }
+        .gallery-arrow.prev { left: 0.75rem; }
+        .gallery-arrow.next { right: 0.75rem; }
+        .gallery-dots {
+            position: absolute; bottom: 0.75rem; left: 50%;
+            transform: translateX(-50%); display: flex; gap: 5px; z-index: 10;
+        }
+        .g-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.7);
+            cursor: pointer; transition: all 0.3s;
+        }
+        .g-dot.active { background: white; transform: scale(1.3); }
 
-        .thumb-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
-        .thumb { height: 110px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.3s; }
+        /* Thumbnail strip — always show exactly 3, arrows page through extras */
+        .thumb-strip-wrap {
+            display: grid;
+            grid-template-columns: 28px 1fr 28px;
+            gap: 0.4rem;
+            align-items: stretch;
+        }
+        .strip-arrow {
+            background: none; border: none; outline: none;
+            color: var(--mid-grey);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem;
+            transition: all 0.25s; padding: 0;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+        }
+        .strip-arrow:hover { color: var(--pink-deep); filter: drop-shadow(0 1px 4px rgba(200,145,159,0.4)); }
+        .strip-arrow:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+        /* The 3-up thumb viewport */
+        .thumb-viewport {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            overflow: hidden;
+        }
+
+        /* Each thumb — horizontal rectangle, hidden by default */
+        .thumb {
+            height: 110px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.25s;
+            display: none;
+        }
+        .thumb.visible { display: block; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .thumb:hover, .thumb.active { border-color: var(--pink-deep); }
 
@@ -96,14 +168,18 @@
         .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s; }
         .footer-links a:hover { background: var(--pink-deep); border-color: var(--pink-deep); color: white; }
 
-        @media (max-width: 968px) {
+                @media (max-width: 968px) {
             .product-grid { grid-template-columns: 1fr; gap: 2.5rem; }
             .gallery { position: relative; top: 0; }
-            .main-img { height: 400px; }
             .story-grid { grid-template-columns: 1fr; }
             .nav-container { flex-direction: column; gap: 0.8rem; }
             nav ul { gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
             .footer-inner { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 480px) {
+            .product-info h1 { font-size: 2.2rem; }
+            .gallery-arrow { width: 30px; height: 30px; font-size: 0.8rem; }
         }
 
         @media (max-width: 480px) {
@@ -132,58 +208,80 @@
 <div class="breadcrumb">
     <a href="index.html">Home</a> &nbsp;/&nbsp;
     <a href="index.html#products">Collection</a> &nbsp;/&nbsp;
-    Scalleta
+    Inabeg Wrap
 </div>
 
 <div class="product-wrap">
     <div class="product-grid">
 
         <!-- GALLERY -->
-        <div class="gallery">
-            <div class="main-img" id="mainImg">
-                <img src="images/products/product_multi_purpose_towel_1.jpg" alt="Everyday Weave" id="mainImgEl">
+                <div class="gallery">
+            <div class="main-img-wrap">
+                <img src="images/products/product_multi_purpose_towel_1.jpg" alt="" id="mainImgEl">
+                <button class="gallery-arrow prev">&#8592;</button>
+                <button class="gallery-arrow next">&#8594;</button>
+                <div class="gallery-dots"></div>
             </div>
-            <div class="thumb-row">
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_1.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_1.jpg" alt="">
+            <div class="thumb-strip-wrap">
+                <button class="strip-arrow strip-prev">&#8249;</button>
+                <div class="thumb-viewport">
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_1.jpg"
+						   data-full="images/products/product_multi_purpose_towel_1.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_2.jpg"
+						   data-full="images/products/product_multi_purpose_towel_2.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_10.jpg"
+						   data-full="images/products/product_multi_purpose_towel_10.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_4.jpg"
+						   data-full="images/products/product_multi_purpose_towel_4.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_5.jpg"
+						   data-full="images/products/product_multi_purpose_towel_5.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_11.jpg"
+						   data-full="images/products/product_multi_purpose_towel_11.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_6.jpg"
+						   data-full="images/products/product_multi_purpose_towel_6.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_9.jpg"
+						   data-full="images/products/product_multi_purpose_towel_9.jpg" alt="">
+					</div>
+
+					<div class="thumb">
+					  <img src="images/products/thumbnails/product_multi_purpose_towel_8.jpg"
+						   data-full="images/products/product_multi_purpose_towel_8.jpg" alt="">
+					</div>
                 </div>
-                <div class="thumb active" onclick="setImg('images/products/product_multi_purpose_towel_2.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_2.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_10.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_10.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_4.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_4.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_5.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_5.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_11.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_11.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_6.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_6.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_9.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_9.jpg" alt="">
-                </div>
-                <div class="thumb" onclick="setImg('images/products/product_multi_purpose_towel_8.jpg', this)">
-                    <img src="images/products/product_multi_purpose_towel_8.jpg" alt="">
-                </div>
+                <button class="strip-arrow strip-next">&#8250;</button>
             </div>
         </div>
 
         <div class="product-info">
             <span class="section-label">Scarves & Wraps</span>
-            <h1>Scalleta</h1>
+            <h1>Inabeg Wrap</h1>
             <div class="pink-rule"></div>
-            <div class="price">₱950</div>
+            <div class="price">₱800</div>
 
             <div class="product-desc">
-                <p>A versatile inabel scarf that transitions seamlessly from professional to personal settings. Combining traditional Bicolano weaving patterns with contemporary functionality.</p>
-                <p>The Scalleta represents the evolution of Filipino textile heritage — honoring traditional techniques while creating products relevant to modern life. Hand-woven with precision by women artisans who have mastered the intricate inabel technique.</p>
-                <p>Wear it as a professional accessory, use it as a lightweight travel blanket, or style it as a beach cover-up. The breathable weave and compact size make it an essential piece for the Filipino climate.</p>
+                <p>Handwoven from 100% upcycled cotton threads recovered from excess textile production, the Inabeg Handwoven Towel gives new life to materials that would otherwise go to waste. Soft yet durable, it is designed for everyday versatility. Use it as a scarf, beach towel, travel blanket, or cover-up. Each piece reflects mindful craftsmanship while supporting women-led, climate-resilient livelihoods.</p>
             </div>
 
             <div class="specs-block">
@@ -191,17 +289,17 @@
                 <div class="spec-row"><strong>Material</strong><span>Upcycled cotton threads</span></div>
                 <div class="spec-row"><strong>Size</strong><span>50cm × 180cm</span></div>
                 <div class="spec-row"><strong>Weight</strong><span>Approximately 200g</span></div>
-                <div class="spec-row"><strong>Technique</strong><span>Traditional inabel weaving</span></div>
-                <div class="spec-row"><strong>Origin</strong><span>Buhi, Camarines Sur, Bicol</span></div>
+                <div class="spec-row"><strong>Technique</strong><span>Traditional inabeg weaving</span></div>
+                <div class="spec-row"><strong>Origin</strong><span>Camarines Sur, Bicol</span></div>
                 <div class="spec-row"><strong>Care</strong><span>Hand wash recommended, air dry</span></div>
             </div>
 
             <div class="impact-box">
                 <h3>Your Impact</h3>
-                <p>Each Scalleta supports women weavers skilled in traditional inabel techniques and contributes to disaster resilience programs. Revenue funds artisan skill development and community preparedness initiatives.</p>
+                <p>Each Inabeg Wrap supports women weavers skilled in traditional inabeg techniques and contributes to disaster resilience programs. Revenue funds artisan skill development and community preparedness initiatives.</p>
             </div>
 
-            <a href="checkout.html?product=Scalleta&price=950&image=78717274-19D9-43A0-9284-035D787F620D.JPG" class="btn-buy">Purchase Now</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdBq73YyE2H0n_C0Y4GrOkiYMHFYnbgf7lgk61yEwSw1di_jA/viewform?pli=1" class="btn-buy">Purchase Now</a>
         </div>
 
     </div>
@@ -213,8 +311,8 @@
         <div class="pink-rule centered"></div>
         <div class="story-grid">
             <div class="story-card">
-                <h3>Inabel Mastery</h3>
-                <p>The Scalleta requires advanced inabel weaving skills. Our artisans have spent years mastering the tight, precise weaving technique that creates the distinctive pattern and drape. This expertise commands fair compensation that recognizes skill level.</p>
+                <h3>Inabeg Mastery</h3>
+                <p>The Inabeg Wrap requires advanced inabeg weaving skills. Our artisans have spent years mastering the tight, precise weaving technique that creates the distinctive pattern and drape. This expertise commands fair compensation that recognizes skill level.</p>
             </div>
             <div class="story-card">
                 <h3>Contemporary Design</h3>
@@ -222,7 +320,7 @@
             </div>
             <div class="story-card">
                 <h3>Cultural Heritage</h3>
-                <p>Inabel weaving is a centuries-old Bicolano tradition. By creating market-viable products that showcase this technique, we ensure these skills remain economically relevant and culturally valued for future generations.</p>
+                <p>Inabeg weaving is a centuries-old Bicolano tradition. By creating market-viable products that showcase this technique, we ensure these skills remain economically relevant and culturally valued for future generations.</p>
             </div>
             <div class="story-card">
                 <h3>Sustainable Production</h3>
@@ -247,11 +345,71 @@
 </footer>
 
 <script>
-    function setImg(src, el) {
-        document.getElementById('mainImgEl').src = src;
-        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
+(function () {
+    const thumbEls  = Array.from(document.querySelectorAll('.thumb'));
+    const mainImg   = document.getElementById('mainImgEl');
+    const dotsWrap  = document.querySelector('.gallery-dots');
+    const viewport  = document.querySelector('.thumb-viewport');
+    const btnPrev   = document.querySelector('.strip-arrow.strip-prev');
+    const btnNext   = document.querySelector('.strip-arrow.strip-next');
+    const PER_PAGE  = 3;
+    let current     = 0;   // active image index
+    let stripOffset = 0;   // which thumb is the first visible in the strip
+    let timer       = null;
+    const srcs      = thumbEls.map(t => t.querySelector('img').dataset.full);
+
+    // Build dots
+    srcs.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'g-dot';
+        d.onclick = () => { goTo(i); resetTimer(); };
+        dotsWrap.appendChild(d);
+    });
+
+    // Show/hide thumbs in the current window
+    function renderStrip() {
+        thumbEls.forEach((t, i) => {
+            const inWindow = i >= stripOffset && i < stripOffset + PER_PAGE;
+            t.classList.toggle('visible', inWindow);
+        });
+        btnPrev.disabled = stripOffset === 0;
+        btnNext.disabled = stripOffset + PER_PAGE >= srcs.length;
     }
+
+    // Ensure active thumb is in the visible window
+    function ensureVisible(idx) {
+        if (idx < stripOffset) stripOffset = idx;
+        else if (idx >= stripOffset + PER_PAGE) stripOffset = idx - PER_PAGE + 1;
+        renderStrip();
+    }
+
+    function goTo(i) {
+        current = (i + srcs.length) % srcs.length;
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = srcs[current]; mainImg.style.opacity = '1'; }, 180);
+        thumbEls.forEach((t, j) => t.classList.toggle('active', j === current));
+        document.querySelectorAll('.g-dot').forEach((d, j) => d.classList.toggle('active', j === current));
+        ensureVisible(current);
+    }
+
+    thumbEls.forEach((t, i) => t.addEventListener('click', () => { goTo(i); resetTimer(); }));
+
+    document.querySelector('.gallery-arrow.prev').addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+    document.querySelector('.gallery-arrow.next').addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+
+    btnPrev.addEventListener('click', () => { stripOffset = Math.max(0, stripOffset - PER_PAGE); renderStrip(); });
+    btnNext.addEventListener('click', () => { stripOffset = Math.min(srcs.length - PER_PAGE, stripOffset + PER_PAGE); renderStrip(); });
+
+    function startTimer() { timer = setInterval(() => goTo(current + 1), 5000); }
+    function resetTimer() { clearInterval(timer); startTimer(); }
+    document.querySelector('.main-img-wrap').addEventListener('mouseenter', () => clearInterval(timer));
+    document.querySelector('.main-img-wrap').addEventListener('mouseleave', startTimer);
+
+    // Init
+    renderStrip();
+    goTo(0);
+    startTimer();
+})();
 </script>
 </body>
 </html>
